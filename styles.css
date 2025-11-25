@@ -140,7 +140,17 @@
     color: rgb(4, 10, 46);
 }
 
-.edit-status {
+/* .remove-book {
+    text-align: center;
+    font-size: 12px;
+}
+
+.remove-book:hover {
+    text-decoration: underline;
+} */
+
+.edit-status,
+.remove-book {
     height: 30px;
     border-radius: 10px;
     color: rgb(45, 68, 134);
@@ -149,7 +159,8 @@
     transition: 0.3s;
 }
 
-.edit-status:hover {
+.edit-status:hover,
+.remove-book:hover {
     background-color: rgb(45, 68, 134);
     color: white;
 }

@@ -48,16 +48,18 @@ submitButton.addEventListener('click', (e) => {
     bookDiv.classList.add('book');
     const bookInfo = document.createElement('div');
     bookInfo.classList.add('book-info');
+    const bookRemove = document.createElement('button');
+    bookRemove.classList.add('remove-book');
 
     const statusButton = document.createElement('button');
     statusButton.classList.add('edit-status');
     statusButton.textContent = 'Change Status';
 
     const fields = [
-        { class: 'title', text: title},
-        { class: 'author', text: 'by ' + author},
-        { class: 'pages', text: pages + ' pages'},
-        { class: 'status', text: status},
+        { class: 'title', text: title },
+        { class: 'author', text: 'by ' + author },
+        { class: 'pages', text: pages + ' pages' },
+        { class: 'status', text: status },
     ];
 
     fields.forEach(({ class: divClass, text }) => {
@@ -65,10 +67,12 @@ submitButton.addEventListener('click', (e) => {
         div.classList.add(divClass);
         div.textContent = text;
         bookInfo.appendChild(div)
+        bookRemove.textContent = 'Remove';
     });
 
     bookDiv.appendChild(bookInfo);
     bookDiv.appendChild(statusButton);
+    bookDiv.appendChild(bookRemove);
     document.querySelector('.bookcase').appendChild(bookDiv);
 
     inputTitle.value = '';
@@ -80,6 +84,8 @@ submitButton.addEventListener('click', (e) => {
         const statusDiv = statusButton.closest('.book').querySelector('.book-info .status');
         changeReadStatus(newBook, statusButton, statusDiv);
     });
+
+
 });
 
 function addBookToLibrary(book) {
@@ -99,3 +105,7 @@ function changeReadStatus(book, button, statusDiv) {
 
     statusDiv.textContent = book.status;
 }
+
+// function removeBook(book) {
+
+// }
