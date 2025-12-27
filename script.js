@@ -7,7 +7,7 @@ const inputTitle = document.querySelector('#title');
 const inputAuthor = document.querySelector('#author');
 const inputPages = document.querySelector('#pages');
 const inputStatus = document.querySelector('#status');
-const myLibrary = [];
+let library = [];
 
 formButton.addEventListener('click', showForm);
 
@@ -45,52 +45,47 @@ submitButton.addEventListener('click', (e) => {
     addBookToLibrary(newBook);
 
     const bookDiv = document.createElement('div');
-    bookDiv.classList.add('book');
-    const bookInfo = document.createElement('div');
-    bookInfo.classList.add('book-info');
-    const bookRemove = document.createElement('button');
-    bookRemove.classList.add('remove-book');
+    bookDiv.className = 'book';
+    bookDiv.dataset.id = newBook.id;
 
-    const statusButton = document.createElement('button');
-    statusButton.classList.add('edit-status');
-    statusButton.textContent = 'Change Status';
+    bookDiv.innerHTML =
+    `
+    <div class="book-info">
+        <div class="title">${title}</div>
+        <div class="author">${author}</div>
+        <div class="pages">${pages}</div>
+        <div class="status">${status}</div>
+    </div>
+    <button class="edit-status">Change Status</button>
+    <button class="remove-book">Remove</button>
+    `;
 
-    const fields = [
-        { class: 'title', text: title },
-        { class: 'author', text: 'by ' + author },
-        { class: 'pages', text: pages + ' pages' },
-        { class: 'status', text: status },
-    ];
+    const statusButton = bookDiv.querySelector('.edit-status');
+    const removeButton = bookDiv.querySelector('.remove-book');
+    const statusDiv = bookDiv.querySelector('.status');
 
-    fields.forEach(({ class: divClass, text }) => {
-        const div = document.createElement('div');
-        div.classList.add(divClass);
-        div.textContent = text;
-        bookInfo.appendChild(div)
-        bookRemove.textContent = 'Remove';
+    statusButton.addEventListener('click', () => {
+        changeReadStatus(newBook, statusButton, statusDiv);
     });
 
-    bookDiv.appendChild(bookInfo);
-    bookDiv.appendChild(statusButton);
-    bookDiv.appendChild(bookRemove);
+    removeButton.addEventListener('click', () => {
+        const bookId = bookDiv.dataset.id;
+
+        removeBook(bookId);
+        bookDiv.remove();
+    });
+
     document.querySelector('.bookcase').appendChild(bookDiv);
 
     inputTitle.value = '';
     inputAuthor.value = '';
     inputPages.value = '';
-    inputStatus.value = '';
-
-    statusButton.addEventListener('click', () => {
-        const statusDiv = statusButton.closest('.book').querySelector('.book-info .status');
-        changeReadStatus(newBook, statusButton, statusDiv);
-    });
-
-
+    inputStatus.checked = false;
 });
 
 function addBookToLibrary(book) {
-    myLibrary.push(book);
-    console.log(myLibrary);
+    library.push(book);
+    console.log(library);
 };
 
 function changeReadStatus(book, button, statusDiv) {
@@ -106,6 +101,7 @@ function changeReadStatus(book, button, statusDiv) {
     statusDiv.textContent = book.status;
 }
 
-// function removeBook(book) {
-
-// }
+function removeBook(bookId) {
+    library = library.filter(book => book.id !== bookId);
+    console.log(library);
+}
